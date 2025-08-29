@@ -1,0 +1,16 @@
+.poem {
+  font-family: 'VT323', monospace;
+  white-space: pre;
+  line-height: 1.1;
+  font-size: clamp(0.75rem, 1.6vw, 1.2rem);
+  color: #33ff33;
+  text-align: left;
+  margin: 0;
+}
+
+.hidden {
+  color: #000;
+  display: inline;
+}
+
+/* No custom home button styles; using global .home-button */

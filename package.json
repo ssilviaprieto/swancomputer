@@ -1,0 +1,11 @@
+{
+  "name": "swan-computer-repo",
+  "private": true,
+  "description": "Swan Computer monorepo (web=Next app, nfts=contracts)",
+  "scripts": {
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "prettier": "^2.8.8"
+  }
+}

@@ -1,0 +1,51 @@
+body {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.swan-poem {
+    font-family: 'VT323', monospace;
+    white-space: pre;
+    line-height: 1.2;
+    font-size: clamp(0.8rem, 2vw, 1.8rem);
+    color: #0f0;
+    text-align: center;
+    padding: 40px;
+    transform: scale(clamp(1, 2.5vw, 3));
+    transform-origin: center;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+p {
+    color: #000;
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.hidden-text {
+    color: #000;
+}
+
+.home-button {
+    display: inline-block;
+    color: #0f0;  /* Changed to green */
+    text-decoration: none;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    position: fixed;
+    top: 50px;
+    left: 120px;
+    z-index: 10;
+}
+
+.home-button:hover {
+    text-decoration: underline;
+} 

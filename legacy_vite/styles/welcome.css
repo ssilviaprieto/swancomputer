@@ -1,0 +1,107 @@
+/* Global styles first */
+
+.center-text {
+    position: absolute;
+    top: 10%; /* Position above the canvases */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    font-family: 'Ballet'; /* Apply the Ballet font to the center text */
+    font-weight:200;
+    text-align: center;
+    color: black;
+    margin-bottom: 0; /* Reduce space below the center text */
+  
+    z-index: 2; /* Ensure it is above the canvases */
+  }
+  
+
+.welcome-page .text-area {
+    width: 40%;
+    max-width: none;
+    padding: 2rem;
+    font-size: 1.3rem;
+    line-height: 1.1;
+    font-family: 'VT323', monospace;
+    position: relative;
+    display: flex;
+    width: 100%;
+    text-align: center;
+    top: -130px;
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;; /* Center text vertically */
+    align-items: center; /* Center text horizontally */
+    margin: 0; /* Remove default margin */
+    padding: 10px; /* Add some padding for aesthetics */
+    margin-top: 230px;
+}
+
+
+.content-container {
+    position: relative;
+    z-index: 1;
+    padding-top: 2vh;
+    text-align: center;
+    margin-top: 0;
+    width: 100%;
+}
+
+/* Center the text content */
+.text-area p {
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0;
+    padding: 0.2rem 0;
+    white-space: nowrap;
+}
+
+.text-area a {
+    display: inline;
+    width: auto;
+    margin: 0;
+    text-decoration: none;
+}
+
+.text-area p a br {
+    display: none;
+}
+
+#room-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+/* Media query at the end for specific mobile adjustments */
+@media screen and (max-width: 887px) {
+    .welcome-page #left-canvas,
+    .welcome-page #right-canvas {
+        display: none;
+    }
+}
+
+/* If you have a specific title element, we can target it directly */
+
+/* Ensure links stay on same line */
+.text-area a {
+    display: inline;
+    width: auto;
+    margin: 0;
+    text-decoration: none;
+}
+
+/* Remove any line breaks between words in links */
+.text-area p a br {
+    display: none;
+}
+
+/* Ensure links are centered too */
+.welcome-page {
+    margin-top: 100px;
+}

@@ -1,0 +1,260 @@
+.life-page {
+    background-color: #0a0a0a;
+    font-family: 'VT323', monospace;
+    color: #33ff33;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+/* CRT scan line effect */
+.life-page::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.1) 0px,
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+/* CRT flicker effect */
+@keyframes flicker {
+    0% { opacity: 0.97; }
+    100% { opacity: 1; }
+}
+
+.life-page {
+    animation: flicker 0.15s infinite;
+}
+
+.content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 15px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+header {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    margin-bottom: 40px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 0;
+}
+
+header h1 {
+    font-family: 'Ballet', serif;
+    font-size: 5rem;
+    color: #33ff33;
+    margin: 0;
+    letter-spacing: 0.05em;
+    font-weight: 300;
+    text-align: center;
+}
+
+/* Position nav - moved more to the right */
+nav {
+    position:fixed;
+    top: 20px;
+    left: 40px;
+    z-index: 10;
+    margin-right: 5cm !important;
+
+}
+.home-button {
+    display: inline-block;
+    padding: 0.6rem;
+    margin-left: 0.9rem;
+    color: #33ff33;
+    text-decoration: none;
+    border: 0.5px solid #1a5c1a;
+    position: relative;
+    z-index: 2;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: transparent;
+    margin-top: 1rem;
+    margin-right: 5cm !important;
+
+}
+
+.home-button:hover {
+    background-color: #1a5c1a;
+    color: #33ff33;
+}
+
+.home-button::before {
+    content: '> ';
+    opacity: 0.8;
+}
+
+/* Container for main content */
+.life-container {
+    max-width: 700px;
+    width: 100%;
+    margin: 15px 0 0 60px;
+    position: relative;
+    z-index: 1;
+}
+
+.section-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.section {
+    border-bottom: 1px dashed #1a5c1a;
+    padding: 0.8rem 0;
+    margin-bottom: 0.8rem;
+    width: 100%;
+    text-align: left;
+}
+
+.section h2 {
+    margin: 0;
+    font-size: 1.6rem;
+    color: #1a8f1a;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+.section-content {
+    padding: 12px 0;
+    width: 100%;
+    text-align: left;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+ul li {
+    padding: 8px 0;
+    font-size: 1.1rem;
+    color: #33ff33;
+    text-align: left;
+}
+
+.resume h3 {
+    color: #1a8f1a;
+    margin: 12px 0 4px 0;
+    font-size: 1.3rem;
+    text-align: left;
+}
+
+.resume .details {
+    padding-left: 18px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    text-align: left;
+}
+
+.skills li {
+    padding: 4px 0;
+    text-align: left;
+}
+
+.profile-link {
+    text-align: left;
+}
+
+.profile-link a {
+    color: #33ff33;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.profile-link a:hover {
+    text-shadow: 0 0 10px rgba(51, 255, 51, 0.5);
+}
+
+/* Terminal styling enhancements */
+.section h2 {
+    font-family: 'VT323', monospace;
+}
+
+.section h2::before {
+    content: "";
+    margin-right: 5px;
+}
+
+.profile-link a::before {
+    content: '';
+    margin-right: 5px;
+}
+
+.section-content ul li strong {
+    display: inline-block;
+    color: #1a8f1a;
+}
+
+/* Cursor blink effect */
+@keyframes cursor-blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.section h2::after {
+    content: "_";
+    display: inline-block;
+    animation: cursor-blink 1s infinite;
+    margin-left: 5px;
+}
+
+/* Enhance the links for better visibility */
+.profile-link {
+    margin: 8px 0;
+}
+
+.profile-link a {
+    padding: 4px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.profile-link a:hover {
+    background-color: rgba(51, 255, 51, 0.1);
+    padding-left: 8px;
+}
+
+/* Make strong tags more visible */
+strong {
+    color: #33ff33 !important;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+/* Terminal details style */
+.details {
+    color: rgba(51, 255, 51, 0.7);
+    font-size: 0.95rem !important;
+}
+

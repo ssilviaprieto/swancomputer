@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.env
+new-entry.sh
+.next/

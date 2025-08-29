@@ -1,0 +1,607 @@
+@import url('https://fonts.googleapis.com/css2?family=Ballet&display=swap');
+
+body 
+
+.content {
+    padding-top: 80px;
+    max-width: 800px;
+    width: 100%;
+    margin: 0;
+    padding-right: 20px;
+    position: relative;
+    z-index: 1;
+    transform: none;
+    max-width: 100%;
+}
+
+article {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+/* Base styles */
+.whitepaper-page {
+    background-color: #0a0a0a;
+    color: rgba(51, 255, 51, 0.6); /* Reduced brightness */
+    font-family: 'VT323'!important;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    overflow-x: hidden;
+}
+
+.whitepaper-container {
+    display: flex;
+    height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
+/* Content panel positioning - adjusted for center */
+.tab-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40%, -50%);
+    width: 600px;
+    max-height: 80vh;
+    background: rgba(10, 10, 10, 0.95);
+    padding: 40px;
+    display: none;
+    opacity: 0;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-width: 90vw;
+    word-wrap: break-word;
+    position: relative;
+}
+
+/* Remove any border classes */
+.tab-content,
+.tab-content::before,
+.tab-content::after {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Ornamental corners */
+.tab-content::after {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    pointer-events: none;
+}
+
+/* Scrollbar styling - more subtle */
+.tab-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tab-content::-webkit-scrollbar-track {
+    background: rgba(51, 255, 51, 0.05);
+}
+
+.tab-content::-webkit-scrollbar-thumb {
+    background: rgba(51, 255, 51, 0.2);
+    border-radius: 2px;
+}
+
+/* Active state with proper display */
+.tab-content.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Ensure content fits screen */
+@media (max-height: 800px) {
+    .tab-content {
+        max-height: 70vh;
+    }
+}
+
+@media (max-height: 600px) {
+    .tab-content {
+        max-height: 60vh;
+    }
+}
+
+/* Menu styling - softer colors */
+.game-menu {
+    position: fixed;
+    left: 40px;
+    top: 50%; /* Align with content */
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 2;
+}
+
+.menu-item {
+    padding: 8px 20px;
+    cursor: pointer;
+    opacity: 0.4; /* Reduced brightness */
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1.8rem !important;
+    font-family: 'VT323'!important;
+
+    color: #33ff33 !important;
+}
+
+.menu-item:hover {
+    opacity: 0.8 !important;
+    padding-left: 25px;
+}
+
+.menu-item.active {
+    opacity: 0.8 !important;
+}
+
+/* Separator styling */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(51, 255, 51, 0.2),
+        transparent
+    );
+    margin: 25px 0;
+}
+
+/* Link styling */
+a {
+    color: #33ff33;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    text-shadow: 0 0 10px rgba(51, 255, 51, 0.5);
+}
+
+/* Strong text emphasis */
+strong {
+    color: rgba(51, 255, 51, 0.8) !important;
+    -webkit-text-fill-color: rgba(51, 255, 51, 0.8) !important;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+/* Update home button to match blog style */
+.home-button {
+    position: fixed;
+    top: 40px;
+    left: 60px;
+    display: inline-block;
+    padding: 0.5rem;
+    color: #33ff33;
+    text-decoration: none;
+    border: 1px solid #1a5c1a;
+    font-family: 'VT323', monospace;
+    transition: all 0.3s ease;
+}
+
+.home-button:hover {
+    background-color: #1a5c1a;
+}
+
+.home-button::before {
+    content: '> ';
+    opacity: 0.8;
+}
+
+/* Water animation layers */
+.water-layer {
+    position: fixed;
+    color: rgba(51, 255, 51, 0.2); /* Less bright */
+    font-family: monospace;
+    font-size: 12px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.water-layer-1 { bottom: 5%; animation: waterFlow 15s linear infinite; }
+.water-layer-2 { bottom: 10%; animation: waterFlow 12s linear infinite reverse; }
+.water-layer-3 { bottom: 15%; animation: waterFlow 18s linear infinite; }
+
+@keyframes waterFlow {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(100vw); }
+}
+
+/* Content styling - simplified */
+.title-row {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(51, 255, 51, 0.1);
+}
+
+.post-meta {
+    font-size: 0.9em;
+    opacity: 0.4;
+    margin-bottom: 10px;
+}
+
+.post-meta span {
+    margin: 0 10px;
+}
+
+section {
+    margin: 25px 0;
+}
+
+h2 {
+    color: rgba(51, 255, 51, 0.7); /* Softer color */
+    font-size: 1.3em;
+    margin: 15px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+h3 {
+    color: rgba(51, 255, 51, 0.6);
+    font-size: 1.1em;
+    margin: 12px 0;
+    letter-spacing: 1px;
+}
+
+p {
+    line-height: 1.5;
+    margin: 12px 0;
+    font-size: 0.95em;
+    color: rgba(51, 255, 51, 0.6);
+}
+
+/* List styling - simplified */
+ul, ol {
+    padding-left: 20px;
+    margin: 12px 0;
+}
+
+li {
+    color: rgba(51, 255, 51, 0.6);
+    margin: 8px 0;
+    line-height: 1.4;
+    position: relative;
+}
+
+li::before {
+    content: '>';
+    position: absolute;
+    left: -15px;
+    color: rgba(51, 255, 51, 0.4);
+}
+
+
+/* Tab content transitions */
+.tab-content h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.tab-content ol,
+.tab-content ul {
+    max-width: 600px;
+    margin: 0 auto;
+     /* Adjust this value to align with the ol content */
+}
+
+.title-row h2 {
+    margin: 0;
+}
+
+.tab-content li strong {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgba(51, 255, 51, 0.8) !important;
+    -webkit-text-fill-color: rgba(51, 255, 51, 0.8) !important;
+    text-shadow: none;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.tab-content li {
+    font-size: 1.2rem;  /* Match the paragraph font size */
+    line-height: 1.5;   /* Match the paragraph line height */
+    color: rgba(51, 255, 51, 0.6);
+}
+
+.tab-content p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: rgba(51, 255, 51, 0.6);
+}
+
+/* Section separators */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(
+        to right,
+        transparent,
+        rgba(51, 255, 51, 0.5),
+        transparent
+    );
+    margin: 30px 0;
+}
+
+/* Update specific tab content styles */
+#hints ul, 
+#rules ul {
+    border-left: none;  /* Remove the left border */
+    padding-left: 0;    /* Remove left padding */
+    list-style: none;   /* Remove default bullets */
+}
+
+#hints li::before,
+#rules li::before {
+    content: '> ';     /* Terminal-style prompt */
+    color: #33ff33;    /* Match the terminal green */
+    font-family: 'VT323', monospace;  /* Use terminal font */
+}
+
+/* Remove vertical scroll for hints and rules */
+#hints.tab-content,
+#rules.tab-content {
+    overflow-y: hidden;  /* Remove vertical scroll */
+    height: auto;       /* Let content determine height */
+}
+
+#hints li,
+#rules li {
+    margin: 8px 0;
+    padding-left: 20px;  /* Add some padding for the prompt */
+    font-family: 'VT323', monospace;
+}
+
+.blog-post.whitepaper-content {
+    width: 800px;
+    min-height: 800px; /* Set a fixed minimum height */
+    margin: 40px auto; /* Center the content */
+    position: relative;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border: none;
+    box-shadow: 5px 5px 0 #000;
+}
+
+.tab-content h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.tab-content ol,
+.tab-content ul {
+    max-width: 600px;
+    margin: 0 auto;
+     /* Adjust this value to align with the ol content */
+}
+
+.title-row h2 {
+    margin: 0;
+}
+
+.tab-content li strong {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: rgba(51, 255, 51, 0.8) !important;
+    -webkit-text-fill-color: rgba(51, 255, 51, 0.8) !important;
+    text-shadow: none;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.tab-content li {
+    font-size: 1.2rem;  /* Match the paragraph font size */
+    line-height: 1.5;   /* Match the paragraph line height */
+    color: rgba(51, 255, 51, 0.6);
+}
+
+.tab-content p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: rgba(51, 255, 51, 0.6);
+}
+
+/* Ensure text fits without scrolling */
+.tab-content {
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    line-height: 1.4;
+}
+
+/* Adjust content layout for wider space */
+.content-page {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    height: calc(100% - 40px);
+    padding-right: 40px; /* Space for pagination */
+}
+
+
+
+
+/* Ensure content fits without scrolling */
+.content-page p,
+.content-page ul,
+.content-page ol {
+    margin: 0.5em 0;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.content-page h2 {
+    margin: 0.5em 0;
+    font-size: 1.4em;
+}
+
+.content-page h3 {
+    margin: 0.5em 0;
+    font-size: 1.2em;
+}
+
+/* File slots - Counter-Strike style tabs */
+.file-slots {
+    display: flex;
+    gap: 2px;
+    margin: 40px 0 20px 0;
+    border-bottom: 1px solid rgba(51, 255, 51, 0.3);
+}
+
+.slot {
+    padding: 8px 20px;
+    border: 1px solid rgba(51, 255, 51, 0.3);
+    border-bottom: none;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.9em;
+}
+
+.slot:hover {
+    opacity: 0.8;
+    text-shadow: 0 0 5px #33ff33;
+}
+
+.slot.active {
+    opacity: 1;
+    background-color: rgba(51, 255, 51, 0.1);
+    border-color: rgba(51, 255, 51, 0.5);
+    text-shadow: 0 0 10px #33ff33;
+}
+
+/* Title styling with Ballet font */
+.title-row h2 {
+    font-family: 'Ballet', cursive;
+    font-size: 2.5em;
+    color: rgba(51, 255, 51, 0.7);
+    text-transform: none; /* Remove uppercase to preserve Ballet's elegance */
+    letter-spacing: 1px;
+    margin: 20px 0;
+    font-weight: normal;
+    text-shadow: 0 0 10px rgba(51, 255, 51, 0.2);
+}
+
+/* Keep other h2 styles unchanged for section titles */
+section h2 {
+    font-family: 'VT323', monospace;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+
+.note {
+    margin-top: 20px;
+    padding: 10px;
+    border-left: 2px solid rgba(51, 255, 51, 0.3);
+    color: rgba(51, 255, 51, 0.6); /* Ensure note text is visible */
+}
+
+/* Update all list items */
+li {
+    color: rgba(51, 255, 51, 0.6);
+    margin: 8px 0;
+    line-height: 1.4;
+    position: relative;
+}
+
+/* Specific styling for the world section */
+#whitepaper .world-section li {
+    color: rgba(51, 255, 51, 0.6);
+}
+
+#whitepaper .world-section strong {
+    color: rgba(51, 255, 51, 0.8);
+    display: inline-block;
+    margin-right: 5px;
+}
+
+/* General list styling */
+ul li, ol li {
+    color: rgba(51, 255, 51, 0.6);
+}
+
+/* Ensure all text content is visible */
+p, li, strong, span {
+    color: rgba(51, 255, 51, 0.6);
+}
+
+/* World section specific */
+#whitepaper .world-section li strong,
+#hints li strong,
+#rules li strong {
+    color: rgba(51, 255, 51, 0.8) !important;
+    -webkit-text-fill-color: rgba(51, 255, 51, 0.8) !important;
+}
+
+/* Remove bottom borders */
+.tab-content,
+.tab-content::after,
+.tab-content::before,
+.whitepaper-content,
+.whitepaper-container,
+section:last-child,
+.note:last-child,
+p:last-child {
+    border-bottom: none !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Ensure the last element doesn't have margin or padding at bottom */
+.tab-content > *:last-child,
+section:last-child,
+.note:last-child,
+p:last-child {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Remove any horizontal rules if they exist */
+hr {
+    display: none;
+}
+
+/* Add swan image styling */
+.swan-image {
+    position: fixed;
+    right: 25%;      /* Changed from 20% to 25% to move more left */
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 500px;
+    opacity: 0.6;
+    z-index: 0;
+}
+
+/* Add close button */
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #33ff33;
+    font-family: 'VT323', monospace;
+    font-size: 1.5em;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.close-button:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}

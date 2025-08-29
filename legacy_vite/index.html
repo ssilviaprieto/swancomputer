@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWAN</title>
+  <link rel="stylesheet" href="./styles/styles.css">
+  <link rel="prefetch" href="/machine">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+<body class="boot-screen">
+  <div class="boot-text">
+    <div id="boot-sequence"></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script>
+    // Inline the JavaScript directly
+    document.addEventListener("DOMContentLoaded", () => {
+      const bootSequence = new Typed("#boot-sequence", {
+        strings: [
+          "Initializing SwanOS...\n" +
+          "Checking memory... OK\n" +
+          "Decrypting keypair... OK\n" +
+          "Establishing connection to Swan Network...\n" +
+          "Access granted.\n"],
+        typeSpeed: 10,          // Fast typing
+        backSpeed: 40,
+        backDelay: 200,          // Short delay between lines
+        startDelay: 200,         // Short initial delay
+        showCursor: true,
+        cursorChar: "_",
+        onComplete: (self) => {
+          const finalText = document.querySelector("#boot-sequence");
+          finalText.innerHTML = "Welcome to Swan Computer";
+          finalText.classList.add("cursive");
+          self.cursor.remove();
+          setTimeout(() => {
+            window.location.href = "/machine";
+          }, 1000);
+        },
+        preStringTyped: (arrayPos, self) => {
+          if (arrayPos < self.strings.length - 1) {
+            self.el.innerHTML = "";
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

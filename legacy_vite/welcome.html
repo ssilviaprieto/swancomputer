@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swan Computer — Home</title>
+    <link rel="stylesheet" href="/styles/welcome.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/terminal.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.174.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.174.0/examples/jsm/"
+        }
+    }
+    </script>
+</head>
+<body class="welcome-page">
+    <!-- Add canvas for Three.js -->
+    <canvas id="room-canvas"></canvas>
+
+    <!-- Swan Computer Home -->
+    <div class="content-container">
+        <h1 class="center-text">Welcome to Swan Computer</h1>
+        <div class="text-area">
+            <p>Treasure hunt of riddles. Solve to mint digital art NFTs.</p>
+            <p style="margin-top:8px;color:#0a0;">Runs on Base Sepolia (testnet)</p>
+            <p style="margin-top:16px;">
+                <a href="/machine" style="
+                    display:inline-block;padding:8px 16px;border:1px solid #222;border-radius:6px;
+                    background:#f4f4f4;color:#000;">Begin Hunt</a>
+            </p>
+        </div>
+
+        <script type="module" src="/scripts/welcome.js"></script>
+
+</div>
+</body>
+</html>

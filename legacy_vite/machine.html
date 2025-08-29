@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swan Computer — Base Sepolia</title>
+
+    <link rel="stylesheet" href="/styles/whitepaper.css">
+    <link rel="stylesheet" href="/styles/terminal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/ornaments.js/dist/ornaments.min.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.159.0/build/three.module.js"
+        }
+    }
+    </script>
+    <script type="module" src="/scripts/tabs.js"></script>
+    <script type="module" src="/scripts/swancomputer.js"></script>
+</head>
+<body class="whitepaper-page">
+    <img src="/images/swannobackground.png" alt="Swan" class="swan-image">
+    <main class="whitepaper-container">
+        <a href="/" class="home-button">cd home</a>
+
+        <nav class="game-menu">
+            <div class="menu-item" id="play-terminal-btn" data-tab="terminal">> PLAY</div>
+            <div class="menu-item" data-tab="whitepaper">> WHITEPAPER</div>
+            <div class="menu-item" data-tab="hints">> HINTS</div>
+            <div class="menu-item" data-tab="rules">> RULES</div>
+        </nav>
+
+        <div id="whitepaper" class="tab-content">
+            <span class="close-button">×</span>
+            <div class="title-row">
+                <div class="post-meta">
+                    <span class="date">March 19, 2024</span>
+                </div>
+                <h2><a href="/swan-poem.html">Swan Computer</a></h2>
+                <div style="margin-left:auto;font-family:VT323,monospace;font-size:14px;background:#111;color:#9cf;padding:4px 8px;border:1px solid #2a2a2a;border-radius:4px">Base Sepolia</div>
+            </div>
+
+            <section>
+                <p>
+                    Swan Computer is a treasure hunt with digital art rewards.
+                </p>
+                <p>
+                    Find the hidden command to unlock your reward: a unique digital artifact (NFT).
+                     Each artifact unlocks the next level and grants special features within Swan Computer.
+                </p>
+
+                <p class="note">
+                   > To purchase these digital artifacts, you can use SWAN tokens - our special currency.
+                </p>
+            </section>
+
+
+
+            <section>
+                <h2>The World of Swan Computer</h2>
+                <ul>
+                    <li><strong>Art Gallery:</strong> Explore paintings that might contain hidden meanings.</li>
+                    <li><strong>Directory:</strong> Whoami</li>
+                </ul>
+            </section>
+        </div>
+
+        <div id="hints" class="tab-content">
+            <span class="close-button">×</span>
+            <h2>Hints</h2>
+            <ul>
+                <li>Source code will guide you almost always</li>
+                <li>Swan Computer exists in unexpected places</li>
+                <li>Some levels may require googling</li>
+                <li>Some paths are hidden in plain sight</li>
+                <li>Numbers and text may have special cryptic significance</li>
+            </ul>
+        </div>
+
+        <div id="rules" class="tab-content">
+            <span class="close-button">×</span>
+                <h2>Rules</h2>
+            <ul>
+                <li>Runs on Base Sepolia (testnet) — use test ETH</li>
+                <li>Each level can only be completed once per wallet</li>
+                <li>Players must own ALL previous level NFTs to continue playing</li>
+                <li>Selling any NFT will pause game progress until repurchased</li>
+                <li>NFTs can be freely traded on secondary markets</li>
+                <li>Sharing solutions publicly is not allowed</li>
+            </ul>
+        </div>
+    </main>
+
+    <div id="terminal-container" class="hidden terminal-container">
+        <div id="terminal-titlebar">
+            <div class="terminal-title">SWAN Terminal</div>
+            <div class="terminal-controls">
+                <button class="control-btn minimize">−</button>
+                <button class="control-btn maximize">□</button>
+                <button class="control-btn close">×</button>
+            </div>
+        </div>
+        <div id="terminal"></div>
+    </div>
+
+    <div id="terminal-icon" class="hidden">
+        <span>></span>
+    </div>
+
+    <script type="module">
+        import { createWaterAnimation } from '/scripts/swanAnimation.js';
+        createWaterAnimation();
+    </script>
+    <script>
+        document.querySelectorAll('.close-button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.style.display = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+/* Imported from existing styles for minimal parity */
+@import url('https://fonts.googleapis.com/css2?family=Ballet&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* Whitepaper + terminal core styles (subset) */
+body { margin: 0; padding: 0; }
+.whitepaper-page { background-color: #0a0a0a; color: rgba(51,255,51,0.6); font-family: 'VT323', monospace; min-height: 100vh; overflow: hidden; }
+.whitepaper-container { display: flex; height: 100vh; padding: 20px; overflow-x: hidden; max-width: 100vw; }
+/* Dialog-style tabs (desktop default) */
+.tab-content { position: fixed; top: 50%; left: 50%; transform: translate(-40%, -50%); width: 600px; max-height: 80vh; background: rgba(10,10,10,0.95); padding: 40px; display: none; opacity: 0; transition: all .3s ease; overflow-y: auto; overflow-x: hidden; max-width: 90vw; word-wrap: break-word; z-index: 1100; }
+.tab-content.active { display: block; opacity: 1; }
+.game-menu { position: fixed; left: 40px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 2; }
+.menu-item { padding: 8px 20px; cursor: pointer; opacity: .4; transition: all .3s ease; text-transform: uppercase; letter-spacing: 2px; font-size: 1.8rem; font-family: 'VT323', monospace; color: #33ff33; user-select: none; }
+.menu-item:hover, .menu-item.active { opacity: .8; }
+.home-button { position: fixed; top: 40px; left: 60px; display: inline-block; padding: .5rem; color: #33ff33; text-decoration: none; border: 1px solid #1a5c1a; font-family: 'VT323', monospace; transition: all .3s ease; }
+.home-button:hover { background-color: #1a5c1a; }
+.home-button::before { content: '> '; opacity: .8; }
+.title-row { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(51,255,51,0.1); }
+.post-meta { font-size: .9em; opacity: .4; margin-bottom: 10px; }
+section { margin: 25px 0; }
+h2 { color: rgba(51,255,51,0.7); font-size: clamp(1.1rem, 1.2vw + 0.9rem, 1.3rem); margin: 15px 0; text-transform: uppercase; letter-spacing: 2px; }
+p, li, strong, span { color: rgba(51,255,51,0.6); }
+li { margin: 8px 0; line-height: 1.4; position: relative; }
+li::before { content: '>'; position: absolute; left: -15px; color: rgba(51,255,51,0.4); }
+.note { margin-top: 20px; padding: 10px; border-left: 2px solid rgba(51,255,51,0.3); }
+.swan-image { position: fixed; right: 25%; top: 50%; transform: translateY(-50%); max-width: 500px; opacity: .6; z-index: 0; pointer-events: none; }
+.close-button { position: absolute; top: 20px; right: 20px; color: #33ff33; font-family: 'VT323', monospace; font-size: 1.5em; cursor: pointer; opacity: .6; transition: all .3s ease; z-index: 2; }
+.close-button:hover { opacity: 1; transform: scale(1.1); }
+
+/* Terminal container placeholder */
+.terminal-container { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px; height: 500px; background: #000; border: 1px solid #333; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,.5); z-index: 1200; display: flex; flex-direction: column; overflow: hidden; }
+.terminal-container.hidden { display: none; }
+
+/* Terminal chrome */
+#terminal-titlebar { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; background: #0b0b0b; border-bottom: 1px solid #222; z-index: 1; }
+.terminal-title { font-size: 14px; letter-spacing: 1px; color: rgba(255,255,255,0.75); }
+.terminal-controls { display: flex; align-items: center; gap: 8px; }
+.control-btn { width: 36px; height: 36px; border-radius: 6px; border: 1px solid #333; background: #111; color: #bbb; cursor: pointer; font-size: 20px; line-height: 1; display: grid; place-items: center; }
+.control-btn:hover { background: #161616; color: #fff; }
+#terminal { flex: 1; min-height: 0; overflow: auto; }
+
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+  .game-menu { left: 24px; gap: 12px; }
+  .menu-item { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
+  .swan-image { right: 10%; max-width: 420px; opacity: .45; }
+  .tab-content { width: min(700px, 90vw); max-height: 85vh; padding: 28px; }
+}
+
+/* Mobile layout */
+@media (max-width: 768px) {
+  .whitepaper-container { height: auto; padding: 16px; }
+  .home-button { top: 12px; left: 12px; padding: .4rem .5rem; }
+  .game-menu { position: static; transform: none; padding-top: 56px; padding-left: 16px; padding-right: 16px; width: 100%; max-width: 100%; }
+  .menu-item { display: block; width: 100%; box-sizing: border-box; border: 1px solid #1a5c1a; border-radius: 8px; padding: 14px 18px; line-height: 1.35; opacity: .95; text-align: left; }
+  .swan-image { right: -20%; top: 55%; max-width: 70vw; opacity: .25; }
+  .tab-content { top: 0; left: 0; transform: none; width: 100vw; height: 100vh; max-width: 100vw; max-height: 100vh; padding: 24px 20px 24px; border-radius: 0; }
+  .close-button { position: sticky; top: 0; right: 0; margin-left: auto; display: inline-block; padding: 6px; font-size: 2rem; }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .menu-item { font-size: clamp(1.1rem, 4.8vw, 1.4rem); padding: 12px 14px; }
+  h2 { font-size: clamp(1rem, 4.5vw, 1.25rem); }
+  .swan-image { display: none; }
+  .tab-content { padding: 16px 14px 22px; }
+}
+
+/* Terminal full-screen on mobile */
+@media (max-width: 768px) {
+  .terminal-container { top: 0; left: 0; transform: none; width: 100vw; height: 100vh; border-radius: 0; border-left: 0; border-right: 0; }
+  #terminal-titlebar { padding: 12px 14px; }
+  .control-btn { width: 44px; height: 44px; font-size: 24px; }
+  /* Ensure terminal viewport accounts for chrome */
+  #terminal { height: calc(100vh - 56px); }
+}
