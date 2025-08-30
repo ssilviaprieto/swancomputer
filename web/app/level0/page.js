@@ -238,7 +238,7 @@ export default function Level0() {
     // HUD: simple instructions overlay
     const hud = document.createElement('div')
     Object.assign(hud.style, { position:'absolute', left:'12px', bottom:'12px', color:'#9cf', fontFamily:'VT323, monospace', fontSize:'14px', opacity:'0.9' })
-    hud.textContent = 'WASD to move • Mouse to look • L: light • H: headlamp'
+    hud.textContent = 'WASD to move • ESC to exit'
     // Ensure parent can position absolute children
     mount.style.position = 'relative'
     mount.appendChild(hud)
