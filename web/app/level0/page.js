@@ -66,11 +66,69 @@ export default function Level0() {
     const front = new THREE.Mesh(wallGeo, wallMat); front.position.set(0, roomHeight/2, roomSize/2); front.rotation.y = Math.PI; scene.add(front)
     const left = new THREE.Mesh(wallGeo, wallMat); left.position.set(-roomSize/2, roomHeight/2, 0); left.rotation.y = Math.PI/2; scene.add(left)
     const right = new THREE.Mesh(wallGeo, wallMat); right.position.set(roomSize/2, roomHeight/2, 0); right.rotation.y = -Math.PI/2; scene.add(right)
+    // Add a ceiling
+    const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(roomSize, roomSize), new THREE.MeshStandardMaterial({ color: 0x303030, side: THREE.DoubleSide }))
+    // Match floor orientation so UVs and visibility are consistent
+    ceiling.rotation.x = -Math.PI / 2
+    ceiling.position.y = roomHeight
+    scene.add(ceiling)
+    // Subtle point light — will be repositioned to sit above the door once it loads
+    const ceilingLight = new THREE.PointLight(0xffffff, 0.28, 7, 2)
+    ceilingLight.position.set(0, roomHeight - 0.05, 0)
+    ceilingLight.castShadow = false
+    scene.add(ceilingLight)
+
+    // Apply wall.jpg texture to walls, floor, and ceiling
+    try {
+      const texLoader = new THREE.TextureLoader()
+      const applyTex = (baseTex) => {
+        const makeMat = (u, v) => {
+          const t = baseTex.clone()
+          t.wrapS = t.wrapT = THREE.RepeatWrapping
+          t.repeat.set(u, v)
+          t.colorSpace = THREE.SRGBColorSpace
+          t.needsUpdate = true
+          return new THREE.MeshStandardMaterial({ map: t, side: THREE.DoubleSide, roughness: 1.0, metalness: 0.0 })
+        }
+        const wallU = Math.max(1, Math.floor(roomSize / 3))
+        const wallV = Math.max(1, Math.floor(roomHeight / 1))
+        const floorU = Math.max(1, Math.floor(roomSize / 3))
+        const floorV = floorU
+        back.material = makeMat(wallU, wallV)
+        front.material = makeMat(wallU, wallV)
+        left.material = makeMat(wallU, wallV)
+        right.material = makeMat(wallU, wallV)
+        floor.material = makeMat(floorU, floorV)
+        ceiling.material = makeMat(floorU, floorV)
+        // Give the ceiling a slight emissive so it isn't pitch black in a dark room
+        try {
+          ceiling.material.emissive = new THREE.Color(0x222222)
+          ceiling.material.emissiveIntensity = 0.35
+          ceiling.material.needsUpdate = true
+        } catch {}
+      }
+      let triedFallback = false
+      const tryLoad = (url) => texLoader.load(
+        url,
+        (tex) => applyTex(tex),
+        undefined,
+        () => {
+          if (!triedFallback) {
+            triedFallback = true
+            try { tryLoad(new URL('./wall.jpg', import.meta.url).href) } catch {}
+          } else {
+            console.warn('Failed to load wall.jpg for room textures')
+          }
+        }
+      )
+      tryLoad('/level0/wall.jpg')
+    } catch {}
 
     const loader = new GLTFLoader()
     let door
     let doorSpot
     let doorZ = null
+
     loader.load(
       '/level0/door.glb',
       (gltf) => {
@@ -95,6 +153,18 @@ export default function Level0() {
 
         } catch {}
         scene.add(door)
+        // Reposition the ceiling light to sit just above the door's top center
+        try {
+          door.updateMatrixWorld(true)
+          const bb = new THREE.Box3().setFromObject(door)
+          const topX = (bb.min.x + bb.max.x) / 2
+          const topY = bb.max.y + 0.05
+          const topZ = (bb.min.z + bb.max.z) / 2
+          ceilingLight.position.set(topX, topY, topZ)
+          ceilingLight.intensity = 0.55
+          ceilingLight.distance = 6.5
+          ceilingLight.decay = 2
+        } catch {}
         doorSpot = new THREE.SpotLight(0xffffff, 50, 40, Math.PI/6, 0.2, 1.5)
         doorSpot.position.set(0, 6, -5)
         scene.add(doorSpot)
@@ -126,6 +196,18 @@ export default function Level0() {
         door.rotation.set(0, 0, 0)
         doorZ = door.position.z
         scene.add(door)
+        // Reposition the ceiling light for the fallback door as well
+        try {
+          door.updateMatrixWorld(true)
+          const bb = new THREE.Box3().setFromObject(door)
+          const topX = (bb.min.x + bb.max.x) / 2
+          const topY = bb.max.y + 0.05
+          const topZ = (bb.min.z + bb.max.z) / 2
+          ceilingLight.position.set(topX, topY, topZ)
+          ceilingLight.intensity = 0.55
+          ceilingLight.distance = 6.5
+          ceilingLight.decay = 2
+        } catch {}
         doorSpot = new THREE.SpotLight(0xffffff, 45, 36, Math.PI/6, 0.2, 1.5)
         doorSpot.position.set(0, 6, -5)
         scene.add(doorSpot)
@@ -141,7 +223,7 @@ export default function Level0() {
     // Smooth first-person movement
     const ACCEL = 22.0
     const DRAG = 7.0
-    const MAX_SPEED = 7.0
+    const MAX_SPEED = 10.0
     const vel = new THREE.Vector3()
     const onKeyDown = (e) => {
       if (e.code==='KeyW') keys.w=true
@@ -149,15 +231,8 @@ export default function Level0() {
       if (e.code==='KeyA') keys.a=true
       if (e.code==='KeyD') keys.d=true
       if (e.code==='ShiftLeft' || e.code==='ShiftRight') keys.shift = true
-      if (e.code==='KeyL') {
-        // Toggle brighter helper lighting
-        ambient.intensity = ambient.intensity < 0.8 ? 1.0 : 0.8
-        hemi.intensity = ambient.intensity
-        grid.visible = true
-      }
-      if (e.code==='KeyH') {
-        headlamp.visible = !headlamp.visible
-      }
+
+
     }
 
     // HUD: simple instructions overlay
@@ -233,11 +308,16 @@ export default function Level0() {
       next.z = Math.max(minZ, Math.min(half - margin, next.z))
       camera.position.copy(next)
 
-      if (door) {
-        const doorPos = new THREE.Vector3(); door.getWorldPosition(doorPos)
-        const dist = doorPos.distanceTo(camera.position)
-        // Show clickable OPEN hint when close to the door
-        if (dist < 1.6) { openHint.style.display = 'block' } else { openHint.style.display = 'none' }
+      // Show clickable OPEN hint when close to the back-wall doorway region
+      {
+        const doorWallZ = -roomSize / 2
+        const planeDist = Math.abs(camera.position.z - doorWallZ)
+        const centerX = Math.abs(camera.position.x) // keep user near door center horizontally
+        if (planeDist < 1.1 && centerX < 2.4) {
+          openHint.style.display = 'block'
+        } else {
+          openHint.style.display = 'none'
+        }
       }
 
       renderer.render(scene, camera)
