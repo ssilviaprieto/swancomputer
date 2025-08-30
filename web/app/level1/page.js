@@ -25,6 +25,7 @@ export default function LevelOne() {
   const awaitingSwanRef = useRef(false)
   const swanBufferRef = useRef('')
   const resetRef = useRef(null)
+  const blackoutRef = useRef(false)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -48,18 +49,16 @@ export default function LevelOne() {
     let running = true
 
     const triggerTypeSwanPrompt = () => {
-      // Stop hazards, center snake, and prompt
+      // Stop hazards and clear board; enter blackout
       bombsActive = false
       if (knifeTimer) clearTimeout(knifeTimer)
       if (letterTimer) clearTimeout(letterTimer)
       letter = null
       knives = []
-      const cx = Math.floor(GRID_W/2)
-      const cy = Math.floor(GRID_H/2)
-      snake = [ { x: cx, y: cy } ]
-      // Original status text
-      setStatus('Type swan')
+      snake = []
+      setStatus('')
       awaitingSwanRef.current = true
+      blackoutRef.current = true
       running = false
     }
 
@@ -95,7 +94,7 @@ export default function LevelOne() {
       if (knifeTimer) clearTimeout(knifeTimer)
       if (!bombsActive) return
       // Spawn a little less frequently
-      knifeTimer = setTimeout(() => { if (bombsActive) { spawnKnife(); scheduleKnife() } }, 6500)
+      knifeTimer = setTimeout(() => { if (bombsActive) { spawnKnife(); scheduleKnife() } }, 8000)
     }
     scheduleKnife()
 
@@ -162,6 +161,7 @@ export default function LevelOne() {
       hitFlashUntil = 0
       setStatus('')
       awaitingSwanRef.current = false
+      blackoutRef.current = false
     }
 
     // expose reset to UI button
@@ -201,17 +201,16 @@ export default function LevelOne() {
           letter = null
           growth += 2
           if (nextIndex >= LETTER_SEQUENCE.length) {
-            // All letters collected: stop bombs, center snake, prompt to type swan
+            // All letters collected: stop hazards and enter blackout
             bombsActive = false
             if (knifeTimer) clearTimeout(knifeTimer)
             if (letterTimer) clearTimeout(letterTimer)
             letter = null
             knives = []
-            const cx = Math.floor(GRID_W/2)
-            const cy = Math.floor(GRID_H/2)
-            snake = [ { x: cx, y: cy } ]
-            setStatus('Type swan')
+            snake = []
+            setStatus('')
             awaitingSwanRef.current = true
+            blackoutRef.current = true
             running = false
           } else {
             scheduleNextLetter()
@@ -247,6 +246,7 @@ export default function LevelOne() {
     const render = () => {
       ctx.fillStyle = '#000'
       ctx.fillRect(0,0,canvas.width,canvas.height)
+      if (blackoutRef.current) return
       drawGrid()
       // Letter
       if (letter) {
@@ -344,7 +344,8 @@ export default function LevelOne() {
   return (
     <main style={{width:'100vw',minHeight:'100vh',background:'#000',display:'grid',placeItems:'center', paddingBottom: 24}}>
       <div style={{display:'grid', gap:12, justifyItems:'center'}}>
-        <canvas ref={canvasRef} style={{border:'1px solid #222', background:'#000'}} />
+        <canvas ref={canvasRef} style={{border: blackoutRef.current ? 'none' : '1px solid #222', background:'#000'}} />
+        {!blackoutRef.current && (
         <div style={{display:'flex', alignItems:'center', gap:8, width: GRID_W*CELL}}>
           <button onClick={() => { if (resetRef.current) resetRef.current() }} style={{background:'#161616', color:'#ddd', border:'1px solid #333', padding:'6px 10px', borderRadius:4, cursor:'pointer'}}>Restart</button>
           <button onClick={() => {
@@ -356,6 +357,7 @@ export default function LevelOne() {
           }} style={{background:'#111', color:'#ddd', border:'1px solid #333', padding:'6px 10px', borderRadius:4, cursor:'pointer'}}>Sound {muted ? 'Off' : 'On'}</button>
           <span style={{opacity:.7, color:'#ccc'}}>Music playing…</span>
         </div>
+        )}
         {/* Hidden YouTube player (audio only) */}
         <div ref={ytDivRef} style={{width:1, height:1, opacity:0, display:'none', pointerEvents:'none', overflow:'hidden'}} aria-hidden="true" />
       </div>
