@@ -5,12 +5,11 @@ import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
-import "./SwanERC20Token.sol";
 
+// SwanCollection is an ERC-1155 collection for in-game artifacts.
+// ERC20 SWAN token has been removed. Minting is free for now.
+// Bouquet is tokenId 0. Additional artifacts use sequential IDs.
 contract SwanCollection is ERC1155, Ownable {
-    // Reference to the ERC20 SWAN token
-    SwanERC20Token public swanToken;
-
     // Mapping to track player levels
     mapping(address => uint256) public playerLevel;
 
@@ -19,8 +18,8 @@ contract SwanCollection is ERC1155, Ownable {
         string name;
         string description;
         string image;
-        uint256 level;
-        uint256 price;
+        uint256 level; // required player level
+        uint256 price; // informational only (no payment enforced)
     }
 
     // Mapping for token metadata
@@ -30,15 +29,11 @@ contract SwanCollection is ERC1155, Ownable {
     event TokenMetadataSet(uint256 indexed tokenId, string name, uint256 level, uint256 price);
     event ArtifactMinted(address indexed player, uint256 indexed artifactId, uint256 price);
     event PlayerLevelIncreased(address indexed player, uint256 newLevel);
-    event TokensWithdrawn(address indexed owner, uint256 amount);
 
-    constructor(address _swanTokenAddress) ERC1155("") Ownable(msg.sender) {
-        require(_swanTokenAddress != address(0), "Invalid token address");
-        swanToken = SwanERC20Token(_swanTokenAddress);
-    }
+    constructor() ERC1155("") Ownable(msg.sender) {}
 
-    // Function to mint artifacts when players find the right command
-    function mintArtifact(uint256 artifactId) external {
+    // Internal mint logic
+    function _mintArtifact(uint256 artifactId) internal {
         // Check artifact exists
         require(bytes(tokenMetadata[artifactId].name).length > 0, "Artifact does not exist");
 
@@ -46,25 +41,26 @@ contract SwanCollection is ERC1155, Ownable {
         uint256 requiredLevel = tokenMetadata[artifactId].level;
         require(playerLevel[msg.sender] >= requiredLevel, "Level too low");
 
-        // Get price for the token
-        uint256 price = tokenMetadata[artifactId].price;
-        require(swanToken.balanceOf(msg.sender) >= price, "Not enough SWAN tokens");
-
         // Update player level if this is their current level artifact
         if (playerLevel[msg.sender] == requiredLevel) {
             playerLevel[msg.sender]++;
             emit PlayerLevelIncreased(msg.sender, playerLevel[msg.sender]);
         }
 
-        // Transfer the SWAN tokens from player to this contract
-        bool transferSuccess = swanToken.transferFrom(msg.sender, address(this), price);
-        require(transferSuccess, "Token transfer failed");
-
         // Mint the artifact
         _mint(msg.sender, artifactId, 1, "");
 
-        emit ArtifactMinted(msg.sender, artifactId, price);
+        // Emit with informational price from metadata (may be zero)
+        emit ArtifactMinted(msg.sender, artifactId, tokenMetadata[artifactId].price);
     }
+
+    // Mint an artifact if the player meets the required level.
+    // Free mint: no ERC20/ETH payment enforced.
+    function mintArtifact(uint256 artifactId) external {
+        _mintArtifact(artifactId);
+    }
+
+    // Note: No dedicated mintBouquet function; mint via mintArtifact(0)
 
     // Function to set token metadata
     function setTokenMetadata(
@@ -96,16 +92,5 @@ contract SwanCollection is ERC1155, Ownable {
         );
         string memory base64Json = Base64.encode(bytes(json));
         return string.concat("data:application/json;base64,", base64Json);
-    }
-
-    // Owner can withdraw SWAN tokens from the contract
-    function withdrawSwanTokens(uint256 amount) external onlyOwner {
-        require(amount > 0, "Amount must be greater than 0");
-        require(swanToken.balanceOf(address(this)) >= amount, "Insufficient balance");
-
-        bool success = swanToken.transfer(owner(), amount);
-        require(success, "Transfer failed");
-
-        emit TokensWithdrawn(owner(), amount);
     }
 }

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Terminal from '../components/Terminal'
+import ArtifactsWindow from '../components/ArtifactsWindow'
 import WalletConnect from '../components/WalletConnect'
 import Water from '../components/Water'
 
@@ -19,6 +20,7 @@ export default function ClientHome() {
 
         <nav className="game-menu">
           <div className="menu-item" onClick={() => { if (typeof window !== 'undefined') window.location.href = '/level0' }}>&gt; PLAY</div>
+          <div className="menu-item" onClick={() => setOpenTab('artifacts')}>&gt; ARTIFACTS</div>
           <div className="menu-item" onClick={() => setOpenTab('whitepaper')}>&gt; WHITEPAPER</div>
           <div className="menu-item" onClick={() => setOpenTab('hints')}>&gt; HINTS</div>
           <div className="menu-item" onClick={() => setOpenTab('rules')}>&gt; RULES</div>
@@ -45,7 +47,7 @@ export default function ClientHome() {
             </p>
 
             <p className="note">
-              &gt; To purchase these digital artifacts, you can use SWAN tokens - our special currency.
+              &gt; As you solve puzzles, you can mint digital artifacts (NFTs) that unlock the next levels.
             </p>
           </section>
 
@@ -83,6 +85,17 @@ export default function ClientHome() {
             <li>NFTs can be freely traded on secondary markets</li>
             <li>Sharing solutions publicly is not allowed</li>
           </ul>
+        </div>
+
+        {/* ARTIFACTS */}
+        <div id="artifacts" className={`tab-content ${openTab === 'artifacts' ? 'active' : ''}`} role="dialog" aria-modal="true" aria-labelledby="artifacts-title">
+          <span className="close-button" onClick={() => setOpenTab(null)} aria-label="Close">×</span>
+          <div className="title-row">
+            <div className="post-meta"></div>
+            <h2 id="artifacts-title">Your Artifacts</h2>
+            <div style={{marginLeft:'auto',fontFamily:'VT323,monospace',fontSize:14,background:'#111',color:'#9cf',padding:'4px 8px',border:'1px solid #2a2a2a',borderRadius:4}}>Base Sepolia</div>
+          </div>
+          <ArtifactsWindow />
         </div>
       </main>
 

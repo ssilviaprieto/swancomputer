@@ -11,8 +11,8 @@ export default function WalletConnect() {
   useEffect(() => {
     if (typeof window === 'undefined' || !window.ethereum) return
     window.ethereum.request({ method: 'eth_accounts' }).then(handleAccounts, () => {})
-    window.ethereum.request({ method: 'eth_chainId' }).then((id) => setChainOk(id === CHAIN_ID_HEX), () => {})
-    const handleChainChanged = (id) => setChainOk(id === CHAIN_ID_HEX)
+    window.ethereum.request({ method: 'eth_chainId' }).then((id) => setChainOk(parseInt(id, 16) === CHAIN_ID_DEC), () => {})
+    const handleChainChanged = (id) => setChainOk(parseInt(id, 16) === CHAIN_ID_DEC)
     const handleAccountsChanged = (accs) => handleAccounts(accs)
     window.ethereum.on?.('chainChanged', handleChainChanged)
     window.ethereum.on?.('accountsChanged', handleAccountsChanged)
@@ -32,7 +32,7 @@ export default function WalletConnect() {
     if (!eth) { setError('No wallet found (install MetaMask)'); return false }
     try {
       const id = await eth.request({ method: 'eth_chainId' })
-      if (id === CHAIN_ID_HEX) { setChainOk(true); return true }
+      if (parseInt(id, 16) === CHAIN_ID_DEC) { setChainOk(true); return true }
       // Try switch
       await eth.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: CHAIN_ID_HEX }] })
       setChainOk(true)
@@ -89,4 +89,3 @@ export default function WalletConnect() {
     </div>
   )
 }
-

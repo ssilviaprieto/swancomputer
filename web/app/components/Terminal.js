@@ -161,7 +161,7 @@ export default function Terminal({ open, onClose, mode, onComplete }) {
     }
 
     // Mint UI (inline) — connect and mint
-    const contractAddr = (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_BOUQUET_NFT_ADDRESS) ? process.env.NEXT_PUBLIC_BOUQUET_NFT_ADDRESS : ''
+    const contractAddr = (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_SWAN_COLLECTION_ADDRESS) ? process.env.NEXT_PUBLIC_SWAN_COLLECTION_ADDRESS : ''
     const status = document.createElement('span')
     status.style.opacity = '0.8'
     status.style.marginLeft = '6px'
@@ -188,14 +188,14 @@ export default function Terminal({ open, onClose, mode, onComplete }) {
     Object.assign(mintBtn.style, { background:'#1a1a3a', color:'#fff', border:'1px solid #333', borderRadius:'0', padding:'6px 10px', cursor:'pointer' })
     mintBtn.addEventListener('click', async () => {
       try {
-        if (!contractAddr) { status.textContent = 'Set NEXT_PUBLIC_BOUQUET_NFT_ADDRESS'; return }
+        if (!contractAddr) { status.textContent = 'Set NEXT_PUBLIC_SWAN_COLLECTION_ADDRESS'; return }
         if (!window?.ethereum) { status.textContent = 'No wallet'; return }
         status.textContent = 'Preparing mint…'
         const provider = new ethers.BrowserProvider(window.ethereum)
         const signer = await provider.getSigner()
-        const abi = [ { inputs: [], name: 'mint', outputs: [{type:'uint256', name:'tokenId'}], stateMutability: 'nonpayable', type: 'function' } ]
-        const nft = new ethers.Contract(contractAddr, abi, signer)
-        const tx = await nft.mint()
+        const abi = [ { inputs: [{ name: 'artifactId', type: 'uint256' }], name: 'mintArtifact', outputs: [], stateMutability: 'nonpayable', type: 'function' } ]
+        const collection = new ethers.Contract(contractAddr, abi, signer)
+        const tx = await collection.mintArtifact(0)
         status.textContent = 'Minting…'
         const receipt = await tx.wait()
         const hash = (receipt && receipt.hash) || tx.hash
