@@ -51,7 +51,7 @@ export default function SwanPoemPage() {
                         ud89ru32r8yry                                       4uiwdwddw34t                            `}
             <span className={styles.hidden}>r</span>
             {`
-                         sfeuhfjdshjhsewatgotoswancomputersydutfiuiojlknjbhgtru67uyokkf
+                         sfeuhfjdshjhsewatgotopeacockroomsydutfiuiojlknjbhgtru67uyokkf
 `}
           </pre>
         </div>

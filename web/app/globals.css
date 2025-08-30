@@ -1,6 +1,7 @@
 /* Imported from existing styles for minimal parity */
 @import url('https://fonts.googleapis.com/css2?family=Ballet&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import '@xterm/xterm/css/xterm.css';
 
 /* Whitepaper + terminal core styles (subset) */
 body { margin: 0; padding: 0; }
@@ -32,7 +33,7 @@ li::before { content: '>'; position: absolute; left: -15px; color: rgba(51,255,5
 .terminal-container.hidden { display: none; }
 
 /* Terminal chrome */
-#terminal-titlebar { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; background: #0b0b0b; border-bottom: 1px solid #222; z-index: 1; }
+#terminal-titlebar { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; background: #0b0b0b; border-bottom: 1px solid #222; z-index: 1; cursor: move; }
 .terminal-title { font-size: 14px; letter-spacing: 1px; color: rgba(255,255,255,0.75); }
 .terminal-controls { display: flex; align-items: center; gap: 8px; }
 .control-btn { width: 36px; height: 36px; border-radius: 6px; border: 1px solid #333; background: #111; color: #bbb; cursor: pointer; font-size: 20px; line-height: 1; display: grid; place-items: center; }
