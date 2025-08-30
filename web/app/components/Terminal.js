@@ -362,11 +362,14 @@ export default function Terminal({ open, onClose }) {
         term.write(`${currentDir} > `)
       },
       ls: () => {
-        // Show only the real folder for level one
+        // Show directories/files
         if (currentDir === '/') {
           term.writeln('\r\npeacockRoom/')
+          term.writeln('level1/')
         } else if (currentDir === '/peacockRoom') {
           term.writeln('\r\npeacockroom.html')
+        } else if (currentDir === '/level1') {
+          term.writeln('\r\n')
         }
         writePrompt(true)
       },
@@ -393,6 +396,9 @@ export default function Terminal({ open, onClose }) {
           if (typeof window !== 'undefined') {
             window.open('/levelfive/peacockroom.html', '_blank')
           }
+        } else if (dest === 'level1') {
+          currentDir = '/level1'
+          term.writeln('\r\nMoved to /level1')
         } else {
           term.writeln(`\r\nNo such directory: ${dest}`)
         }
@@ -446,6 +452,13 @@ export default function Terminal({ open, onClose }) {
             buyUrl
           })
         }
+        writePrompt(true)
+        return
+      }
+
+      // Level 1 completion inside /level1
+      if (currentDir === '/level1' && clean.toLowerCase() === 'oblivion') {
+        term.writeln('\r\nCongratulations — you passed Level 1!')
         writePrompt(true)
         return
       }
