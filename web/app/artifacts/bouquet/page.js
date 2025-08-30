@@ -44,7 +44,7 @@ export default function BouquetArtifactPage() {
                 <div>
                   <p style={{marginTop: 0}}>Mint link not set.</p>
                   <p style={{marginBottom: 12}}>Set <code>NEXT_PUBLIC_BOUQUET_NFT_URL</code> in <code>web/.env.local</code> to your marketplace or mint page URL once deployed.</p>
-                  <a href="/artifacts/bouquet/deploy" style={{color: '#33ff33'}}>How to deploy the NFT</a>
+                  <span style={{color: '#bbb'}}>Ask an admin for the mint link once deployed.</span>
                 </div>
               )}
             </div>
