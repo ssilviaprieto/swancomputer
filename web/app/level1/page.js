@@ -33,6 +33,18 @@ export default function LevelOne() {
     if (!canvas) return
     const ctx = canvas.getContext('2d')
 
+    // Insert an HTML comment node so it appears in DevTools Elements
+    let songComment
+    try {
+      songComment = document.createComment(' Which song is playing?... ')
+      const root = document.documentElement || document.body
+      if (root && root.firstChild) {
+        root.insertBefore(songComment, root.firstChild)
+      } else if (root) {
+        root.appendChild(songComment)
+      }
+    } catch {}
+
     // Game state
     let raf, last = 0, acc = 0
     let dir = { x: 1, y: 0 }
@@ -343,6 +355,7 @@ export default function LevelOne() {
       if (knifeTimer) clearTimeout(knifeTimer)
       if (letterTimer) clearTimeout(letterTimer)
       if (lossTimer) clearTimeout(lossTimer)
+      try { songComment?.remove?.() } catch {}
     }
   }, [])
 
