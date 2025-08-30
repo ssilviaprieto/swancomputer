@@ -16,7 +16,7 @@ export default function Level0() {
     scene.background = new THREE.Color(0x000000)
     // Room dimensions (used for light/wall positions)
     const roomSize = 40
-    const roomHeight = 10
+    const roomHeight = 3
 
     const camera = new THREE.PerspectiveCamera(75, mount.clientWidth / mount.clientHeight, 0.1, 1000)
     camera.position.set(0, 1.6, 8)
@@ -31,20 +31,21 @@ export default function Level0() {
     mount.appendChild(renderer.domElement)
 
     // Much brighter ambient for visibility (press 'L' to toggle)
-    const ambient = new THREE.AmbientLight(0xffffff, 1.0)
+    const ambient = new THREE.AmbientLight(0xffffff, .05)
     scene.add(ambient)
 
     // Faint skylight so silhouettes are visible
-    const hemi = new THREE.HemisphereLight(0x333366, 0x000000, 0.6)
+    const hemi = new THREE.HemisphereLight(0x111122, 0x000000, 0.03)
     scene.add(hemi)
 
     // Headlamp attached to camera (press 'H' to toggle)
     const headlamp = new THREE.PointLight(0xffffff, 1.0, 18)
     camera.add(headlamp)
     scene.add(camera)
+    headlamp.visible = false
 
     // Directional light for global fill
-    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8)
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.08)
     dirLight.position.set(2, 6, 2)
     scene.add(dirLight)
 
@@ -54,8 +55,9 @@ export default function Level0() {
 
     // Very dim grid to help orientation
     const grid = new THREE.GridHelper(roomSize, roomSize, 0x224422, 0x112211)
-    grid.material.opacity = 0.6
+    grid.material.opacity = 0.2
     grid.material.transparent = true
+    grid.visible = false
     scene.add(grid)
 
     const wallMat = new THREE.MeshStandardMaterial({ color: 0x3a3a3a, side: THREE.DoubleSide })
@@ -68,6 +70,7 @@ export default function Level0() {
     const loader = new GLTFLoader()
     let door
     let doorSpot
+    let doorZ = null
     loader.load(
       '/level0/door.glb',
       (gltf) => {
@@ -84,17 +87,12 @@ export default function Level0() {
           const sizeScaled = new THREE.Vector3(); bboxScaled.getSize(sizeScaled)
           const depth = Math.max(0.02, sizeScaled.z || 0.02)
           door.rotation.set(0, 300, 0)
-          door.position.set(0, targetH/2, -56/2 + depth/2 + 0.002)
-          // Ensure visibility regardless of normals
-          door.traverse((obj) => {
-            if (obj.isMesh && obj.material) {
-              try {
-                obj.material.side = THREE.DoubleSide
-                obj.material.emissive = new THREE.Color(0x444444)
-                obj.material.emissiveIntensity = 0.8
-              } catch {}
-            }
-          })
+          door.position.set(0, targetH/2, -44.5/2 + depth/2 + 0.002)
+          doorZ = door.position.z
+          // Keep your rotation/position above intact; flip to
+          // Ensure visibility regardless of normals and draw on top of wall even if behind
+          door.renderOrder = 999
+
         } catch {}
         scene.add(door)
         doorSpot = new THREE.SpotLight(0xffffff, 50, 40, Math.PI/6, 0.2, 1.5)
@@ -123,9 +121,10 @@ export default function Level0() {
         // Make the fallback door the same height as the wall; set width to a reasonable ratio
         const fallbackW = roomHeight * 0.35
         door = new THREE.Mesh(new THREE.PlaneGeometry(fallbackW, roomHeight), mat)
-        // Place fallback door flush to back wall, facing into the room
-        door.position.set(0, roomHeight/2, -roomSize/2 + 0.06)
-        door.rotation.set(0, 400, 0)
+        // Place fallback door just in front of back wall, facing into the room
+        door.position.set(0, roomHeight/2, -roomSize/2 + 0.005)
+        door.rotation.set(0, 0, 0)
+        doorZ = door.position.z
         scene.add(door)
         doorSpot = new THREE.SpotLight(0xffffff, 45, 36, Math.PI/6, 0.2, 1.5)
         doorSpot.position.set(0, 6, -5)
@@ -227,8 +226,11 @@ export default function Level0() {
       // Constrain within room bounds (simple box collision against walls)
       const half = roomSize/2
       const margin = 0.8 // keep camera slightly away from the wall
+      const minZWall = -half + margin
+      const minZDoor = (doorZ !== null) ? doorZ + 0.35 : minZWall
+      const minZ = Math.max(minZWall, minZDoor)
       next.x = Math.max(-half + margin, Math.min(half - margin, next.x))
-      next.z = Math.max(-half + margin, Math.min(half - margin, next.z))
+      next.z = Math.max(minZ, Math.min(half - margin, next.z))
       camera.position.copy(next)
 
       if (door) {
