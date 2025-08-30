@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react'
+import { ethers } from 'ethers'
 
 export default function BouquetMintPage() {
   const [account, setAccount] = useState('')
@@ -30,7 +31,6 @@ export default function BouquetMintPage() {
       if (!contract) { setStatus('Set NEXT_PUBLIC_BOUQUET_NFT_ADDRESS'); return }
       if (!window?.ethereum) { setStatus('No wallet'); return }
       setStatus('Preparing mint...')
-      const { ethers } = await import('https://cdn.jsdelivr.net/npm/ethers@6.13.1/+esm')
       const provider = new ethers.BrowserProvider(window.ethereum)
       const signer = await provider.getSigner()
       const abi = [
