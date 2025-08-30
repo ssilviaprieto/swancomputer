@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from 'react'
+import { ethers } from 'ethers'
 
 const SWAN_LORE = {
   origin: 'An ancient digital entity, once guardian of mystical-technological artifacts',
@@ -91,29 +92,35 @@ export default function Terminal({ open, onClose }) {
     const card = document.createElement('div')
     card.style.background = '#111'
     card.style.border = '1px solid #333'
-    card.style.borderRadius = '12px'
-    card.style.padding = '16px'
-    card.style.width = 'min(680px, 92vw)'
+    card.style.borderRadius = '0'
+    card.style.padding = '12px'
+    // Make the window squared and compact for text
+    card.style.width = 'min(420px, 92vw)'
+    card.style.maxHeight = '70vh'
+    card.style.display = 'flex'
+    card.style.flexDirection = 'column'
     card.style.color = '#e6e6e6'
     card.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)'
+    card.style.overflow = 'auto'
 
     const h = document.createElement('div')
     h.textContent = title || 'Artifact'
     h.style.fontFamily = 'VT323, monospace'
     h.style.color = '#33ff33'
-    h.style.fontSize = '22px'
-    h.style.marginBottom = '8px'
+    h.style.fontSize = '18px'
+    h.style.marginBottom = '6px'
     card.appendChild(h)
 
-    const img = document.createElement('img')
-    img.src = imageSrc
-    img.alt = title || 'Artifact'
-    img.style.maxWidth = '100%'
-    img.style.borderRadius = '8px'
-    img.style.border = '1px solid #333'
-    img.style.display = 'block'
-    img.style.margin = '0 auto 10px'
-    card.appendChild(img)
+    // Hide image to keep the window minimal
+    // const img = document.createElement('img')
+    // img.src = imageSrc
+    // img.alt = title || 'Artifact'
+    // img.style.maxWidth = '100%'
+    // img.style.objectFit = 'contain'
+    // img.style.border = '1px solid #333'
+    // img.style.display = 'block'
+    // img.style.margin = '0 auto 10px'
+    // card.appendChild(img)
 
     const p = document.createElement('div')
     p.textContent = description || ''
@@ -125,7 +132,7 @@ export default function Terminal({ open, onClose }) {
     row.style.display = 'flex'
     row.style.gap = '10px'
     row.style.flexWrap = 'wrap'
-    
+
     if (buyUrl) {
       const a = document.createElement('a')
       a.href = buyUrl
@@ -136,18 +143,65 @@ export default function Terminal({ open, onClose }) {
       a.style.color = '#fff'
       a.style.padding = '8px 12px'
       a.style.border = '1px solid #2a7c2a'
-      a.style.borderRadius = '8px'
+      a.style.borderRadius = '0'
       a.style.textDecoration = 'none'
       row.appendChild(a)
     }
+
+    // Mint UI (inline) — connect and mint
+    const contractAddr = (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_BOUQUET_NFT_ADDRESS) ? process.env.NEXT_PUBLIC_BOUQUET_NFT_ADDRESS : ''
+    const status = document.createElement('span')
+    status.style.opacity = '0.8'
+    status.style.marginLeft = '6px'
+    let connected = ''
+
+    const connectBtn = document.createElement('button')
+    connectBtn.textContent = 'Connect Wallet'
+    Object.assign(connectBtn.style, { background:'#1a5c1a', color:'#fff', border:'1px solid #2a7c2a', borderRadius:'0', padding:'6px 10px', cursor:'pointer' })
+    connectBtn.addEventListener('click', async () => {
+      try {
+        if (!window?.ethereum) { status.textContent = 'No wallet detected'; return }
+        const [addr] = await window.ethereum.request({ method: 'eth_requestAccounts' })
+        connected = addr
+        status.textContent = `Connected: ${addr.slice(0,6)}…${addr.slice(-4)}`
+      } catch {
+        status.textContent = 'Connect failed'
+      }
+    })
+    row.appendChild(connectBtn)
+    row.appendChild(status)
+
+    const mintBtn = document.createElement('button')
+    mintBtn.textContent = 'Mint'
+    Object.assign(mintBtn.style, { background:'#1a1a3a', color:'#fff', border:'1px solid #333', borderRadius:'0', padding:'6px 10px', cursor:'pointer' })
+    mintBtn.addEventListener('click', async () => {
+      try {
+        if (!contractAddr) { status.textContent = 'Set NEXT_PUBLIC_BOUQUET_NFT_ADDRESS'; return }
+        if (!window?.ethereum) { status.textContent = 'No wallet'; return }
+        status.textContent = 'Preparing mint…'
+        const provider = new ethers.BrowserProvider(window.ethereum)
+        const signer = await provider.getSigner()
+        const abi = [ { inputs: [], name: 'mint', outputs: [{type:'uint256', name:'tokenId'}], stateMutability: 'nonpayable', type: 'function' } ]
+        const nft = new ethers.Contract(contractAddr, abi, signer)
+        const tx = await nft.mint()
+        status.textContent = 'Minting…'
+        const receipt = await tx.wait()
+        const hash = (receipt && receipt.hash) || tx.hash
+        status.textContent = `Minted! Tx: ${hash}`
+      } catch (e) {
+        console.error(e)
+        status.textContent = 'Mint failed'
+      }
+    })
+    row.appendChild(mintBtn)
 
     const close = document.createElement('button')
     close.textContent = 'Close'
     close.style.background = '#161616'
     close.style.color = '#ccc'
     close.style.border = '1px solid #333'
-    close.style.padding = '8px 12px'
-    close.style.borderRadius = '8px'
+    close.style.padding = '6px 10px'
+    close.style.borderRadius = '0'
     close.style.cursor = 'pointer'
     close.addEventListener('click', () => {
       overlay.remove()
@@ -337,7 +391,7 @@ export default function Terminal({ open, onClose }) {
           term.writeln('\r\nOpening peacockRoom in a new tab ...')
           // Open the room in a new tab
           if (typeof window !== 'undefined') {
-            window.open('/levelone/peacockroom.html', '_blank')
+            window.open('/levelfive/peacockroom.html', '_blank')
           }
         } else {
           term.writeln(`\r\nNo such directory: ${dest}`)

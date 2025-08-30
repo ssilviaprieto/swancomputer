@@ -18,7 +18,7 @@ export default function ClientHome() {
         <a href="/home" className="home-button">cd home</a>
 
         <nav className="game-menu">
-          <div className="menu-item" onClick={() => setOpen(true)}>&gt; PLAY</div>
+          <div className="menu-item" onClick={() => { if (typeof window !== 'undefined') window.location.href = '/level0' }}>&gt; PLAY</div>
           <div className="menu-item" onClick={() => setOpenTab('whitepaper')}>&gt; WHITEPAPER</div>
           <div className="menu-item" onClick={() => setOpenTab('hints')}>&gt; HINTS</div>
           <div className="menu-item" onClick={() => setOpenTab('rules')}>&gt; RULES</div>
