@@ -45,7 +45,7 @@ export default function ClientHome() {
             </p>
 
             <p className="note">
-              &gt; To purchase these digital artifacts, you can use SWAN tokens - our special currency.
+              &gt; As you solve puzzles, you can mint digital artifacts (NFTs) that unlock the next levels.
             </p>
           </section>
 
