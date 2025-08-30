@@ -9,7 +9,9 @@ const GRID_W = 32
 const GRID_H = 20
 const CELL = 20
 const TICK_MS = 110
-const LETTER_SEQUENCE = ['P','I','A','Z','O','L','L','A']
+const LETTER_SEQUENCE = ['P'
+
+]
 
 export default function LevelOne() {
   const canvasRef = useRef(null)
@@ -26,6 +28,7 @@ export default function LevelOne() {
   const swanBufferRef = useRef('')
   const resetRef = useRef(null)
   const blackoutRef = useRef(false)
+  const [blackout, setBlackout] = useState(false)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -60,6 +63,29 @@ export default function LevelOne() {
       awaitingSwanRef.current = true
       blackoutRef.current = true
       running = false
+
+      // Add selectable overlay text centered on the page
+      try {
+        const id = 'level1-type-swan-overlay'
+        let el = document.getElementById(id)
+        if (el) el.remove()
+        el = document.createElement('div')
+        el.id = id
+        Object.assign(el.style, {
+          position: 'fixed', left: '0', top: '0', right: '0', bottom: '0',
+          display: 'grid', placeItems: 'center', zIndex: '9999',
+          background: 'transparent', color: '#000000', userSelect: 'text',
+          pointerEvents: 'none',
+          fontFamily: 'Ballet, sans-serif', fontWeight: '900',
+          fontSize: 'min(20vw, 160px)', letterSpacing: '0.04em', textAlign: 'center',
+        })
+        const span = document.createElement('span')
+        span.textContent = 'Type swan'
+        // allow selecting the text while not capturing clicks
+        span.style.pointerEvents = 'auto'
+        el.appendChild(span)
+        document.body.appendChild(el)
+      } catch {}
     }
 
     const isOccupied = (x,y) => snake.some(p => p.x===x && p.y===y) || knives.some(k => k.x===x && k.y===y)
@@ -162,6 +188,7 @@ export default function LevelOne() {
       setStatus('')
       awaitingSwanRef.current = false
       blackoutRef.current = false
+      try { const e = document.getElementById('level1-type-swan-overlay'); if (e) e.remove() } catch {}
     }
 
     // expose reset to UI button
@@ -345,6 +372,13 @@ export default function LevelOne() {
     <main style={{width:'100vw',minHeight:'100vh',background:'#000',display:'grid',placeItems:'center', paddingBottom: 24}}>
       <div style={{display:'grid', gap:12, justifyItems:'center'}}>
         <canvas ref={canvasRef} style={{border: blackoutRef.current ? 'none' : '1px solid #222', background:'#000'}} />
+        {blackoutRef.current && (
+          <div style={{ position:'fixed', inset:0, display:'grid', placeItems:'center', zIndex:5, pointerEvents:'none' }}>
+          <div style={{ color:'#000000', fontWeight:900, fontFamily:'Ballet, sans-serif', fontSize:'min(20vw, 160px)', letterSpacing:'0.04em', userSelect:'text', pointerEvents:'auto', textAlign:'center' }}>
+            Type swan
+          </div>
+        </div>
+        )}
         {!blackoutRef.current && (
         <div style={{display:'flex', alignItems:'center', gap:8, width: GRID_W*CELL}}>
           <button onClick={() => { if (resetRef.current) resetRef.current() }} style={{background:'#161616', color:'#ddd', border:'1px solid #333', padding:'6px 10px', borderRadius:4, cursor:'pointer'}}>Restart</button>
