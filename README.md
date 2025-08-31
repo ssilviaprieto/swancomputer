@@ -1,7 +1,7 @@
 # Swan Computer
 
 Treasure-hunt game powered by a mystical AI guide where players solve riddles to unlock digital art NFTs. Built to demo Web3 UX (wallets, daily blockchain usage, AI integrations, social sharing) beyond financial transactions.
-
+ 
 Hackathon target: Base Sepolia (testnet).
 
 Frontend (Next.js):
