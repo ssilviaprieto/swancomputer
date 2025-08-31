@@ -29,5 +29,3 @@ This repo is configured to deploy the Next.js app in `web/` via a root `vercel.j
   - `NEXT_PUBLIC_SWAN_COLLECTION_ADDRESS` (required, client-safe)
 
 Local env files are ignored. Use `web/.env.example` as a template and do not commit secrets.
-
-Security note: a previous `.env.local` existed in `web/`. It has been removed and `.gitignore` updated to ignore env files. Rotate any leaked keys if this file was ever pushed publicly.
