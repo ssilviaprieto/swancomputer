@@ -12,7 +12,7 @@ async function main() {
   const tokenId = Number(process.env.TOKEN_ID || '0');
   const name = process.env.BOUQUET_NAME || 'Bouquet';
   const description = process.env.BOUQUET_DESC || 'This bouquet will help you make the swans reveal their secrets to you with its enchanting smell. It may be used anytime.';
-  const image = process.env.BOUQUET_IMAGE_URL || 'http://localhost:3000/images/bouquet.jpeg';
+  const image = process.env.BOUQUET_IMAGE_URL || 'https://swancomputer.vercel.app/images/bouquet.jpeg';
   const level = Number(process.env.BOUQUET_LEVEL || '0');
   const price = BigInt(process.env.BOUQUET_PRICE || '0');
 
