@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "framework": "nextjs",
-  "builds": [{ "src": "web/package.json", "use": "@vercel/next" }],
-  "installCommand": "cd web && bun install || (cd web && npm install)",
-  "buildCommand": "cd web && bun run build || (cd web && npm run build)"
-}
