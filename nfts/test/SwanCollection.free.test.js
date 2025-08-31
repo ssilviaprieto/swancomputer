@@ -31,7 +31,7 @@ describe("SwanCollection (ERC-1155, free mint)", function () {
       ARTIFACT_ID_0,
       "Bouquet",
       "This bouquet will help you make the swans reveal their secrets to you with its enchanting smell. It may be used anytime.",
-      "https://swan.computer/artifacts/bouquet.png",
+      "http://localhost:3000/images/bouquet.jpeg",
       0, // level required
       ARTIFACT_PRICE_0
     );
@@ -40,7 +40,7 @@ describe("SwanCollection (ERC-1155, free mint)", function () {
       ARTIFACT_ID_1,
       "Second Artifact",
       "This is the second artifact",
-      "https://swan.computer/artifacts/1.png",
+      "http://localhost:3000/images/1.png",
       1, // level required
       ARTIFACT_PRICE_1
     );
@@ -49,7 +49,7 @@ describe("SwanCollection (ERC-1155, free mint)", function () {
       ARTIFACT_ID_2,
       "Third Artifact",
       "This is the third artifact",
-      "https://swan.computer/artifacts/2.png",
+      "http://localhost:3000/images/2.png",
       2,
       ARTIFACT_PRICE_2
     );
@@ -58,7 +58,7 @@ describe("SwanCollection (ERC-1155, free mint)", function () {
       ARTIFACT_ID_3,
       "Fourth Artifact",
       "This is the fourth artifact",
-      "https://swan.computer/artifacts/3.png",
+      "http://localhost:3000/images/3.png",
       3,
       ARTIFACT_PRICE_3
     );
@@ -125,4 +125,3 @@ describe("SwanCollection (ERC-1155, free mint)", function () {
     });
   });
 });
-
