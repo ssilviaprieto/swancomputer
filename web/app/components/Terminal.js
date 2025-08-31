@@ -520,13 +520,11 @@ export default function Terminal({ open, onClose, mode, onComplete }) {
         } catch {}
         term.writeln('\r\nWell answered. The decipherer is recognized.')
         term.writeln('Acquire the ancient artifact to continue playing.')
-        const buyUrl = (typeof process !== 'undefined' && process.env?.NEXT_PUBLIC_BOUQUET_NFT_URL) ? process.env.NEXT_PUBLIC_BOUQUET_NFT_URL : ''
         if (typeof window !== 'undefined') {
           showArtifactOverlay({
             title: 'Ancient Artifact: Bouquet',
             imageSrc: window.location.origin + '/images/bouquet.jpeg',
             description: 'This bouquet will help you make the swans reveal their secrets to you with its enchanting smell. It may be used anytime.',
-            buyUrl,
             artifactId: 0
           })
         }

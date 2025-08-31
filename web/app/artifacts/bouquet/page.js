@@ -3,8 +3,6 @@ export const metadata = {
 }
 
 export default function BouquetArtifactPage() {
-  const buyUrl = process.env.NEXT_PUBLIC_BOUQUET_NFT_URL || ''
-  const hasBuyUrl = !!buyUrl
   return (
     <main style={{
       minHeight: '100vh',
@@ -30,23 +28,10 @@ export default function BouquetArtifactPage() {
           <div style={{flex: 1, minWidth: 260}}>
             <div style={{border: '1px solid #333', borderRadius: 8, padding: 16, background: '#111'}}> 
               <h2 style={{marginTop: 0, fontFamily: 'VT323, monospace', color: '#33ff33'}}>Mint as NFT</h2>
-              {hasBuyUrl ? (
-                <a href={buyUrl} target="_blank" rel="noopener noreferrer" style={{
-                  display: 'inline-block',
-                  padding: '10px 16px',
-                  background: '#1a5c1a',
-                  color: '#fff',
-                  borderRadius: 8,
-                  textDecoration: 'none',
-                  border: '1px solid #2a7c2a'
-                }}>Buy on Marketplace</a>
-              ) : (
-                <div>
-                  <p style={{marginTop: 0}}>Mint link not set.</p>
-                  <p style={{marginBottom: 12}}>Set <code>NEXT_PUBLIC_BOUQUET_NFT_URL</code> in <code>web/.env.local</code> to your marketplace or mint page URL once deployed.</p>
-                  <span style={{color: '#bbb'}}>Ask an admin for the mint link once deployed.</span>
-                </div>
-              )}
+              <div>
+                <p style={{marginTop: 0}}>Mint link not available.</p>
+                <span style={{color: '#bbb'}}>Check back soon for mint details.</span>
+              </div>
             </div>
           </div>
         </div>
