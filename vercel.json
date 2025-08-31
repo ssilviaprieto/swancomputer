@@ -1,13 +1,10 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "framework": "nextjs",
   "builds": [
     { "src": "web/package.json", "use": "@vercel/next" }
   ],
-  "routes": [
-    { "src": "/(.*)", "dest": "web/$1" }
-  ],
   "installCommand": "cd web && bun install || (cd web && npm install)",
   "buildCommand": "cd web && bun run build || (cd web && npm run build)"
 }
-

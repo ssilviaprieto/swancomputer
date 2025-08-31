@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation';
 import Image from 'next/image';
 import catImg from '../../cat.jpg';
 
-export default function Level2FlagPage({ params }) {
-  const { flag } = params;
+export default async function Level2FlagPage({ params }) {
+  const { flag } = await params;
 
   if (String(flag).toLowerCase() === 'true') {
     redirect('/level3');
